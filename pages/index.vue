@@ -1,53 +1,28 @@
 <template>
   <div class="container">
-    <!-- 以下を追加 -->
-    <div class="chats-layout">
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-      <messages />
-    </div>
-    <div class="input-layout">
-      <chat-form />
-    </div>
+    <button v-on:click="login">ログイン</button>
   </div>
 </template>
 
 <script>
-import Messages from "../components/Messages.vue";
-import ChatForm from "../components/ChatForm.vue";
+import { firebase } from "~/plugins/firebase";
 
 export default {
-  components: {
-    Messages,
-    ChatForm,
+  methods: {
+    login() {
+      window.alert("ログインするよ");
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          console.log(user);
+        })
+        .catch(error => {
+          window.alert(error);
+        });
+    }
   }
 };
 </script>
-
-<style scoped>
-.container {
-  height: 100%;
-}
-.chats-layout {
-  overflow: scroll;
-  height: 90%;
-}
-.input-layout {
-  height: 10%;
-}
-.input-container {
-  padding: 10px;
-  height: 100%;
-}
-textarea {
-  width: 100%;
-  height: 100%;
-}
-</style>
